@@ -19,6 +19,6 @@ public class Professores {
     @Column(unique = true)
     private String cpf;
     private int idade;
-    @ManyToMany(mappedBy = "tb_professores")
+    @ManyToMany(mappedBy = "professores")
     private List<Turmas> turmas = new ArrayList<>();
 }

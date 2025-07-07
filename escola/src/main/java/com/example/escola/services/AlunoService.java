@@ -38,7 +38,7 @@ public class AlunoService {
 
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Carro não encontrado");
+            throw new EntityNotFoundException("Id do aluno não encontrado");
         }
         repository.deleteById(id);
     }

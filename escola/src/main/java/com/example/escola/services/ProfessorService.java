@@ -40,7 +40,7 @@ public class ProfessorService {
 
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Carro não encontrado");
+            throw new EntityNotFoundException("Id de professor não encontrado");
         }
         repository.deleteById(id);
     }
