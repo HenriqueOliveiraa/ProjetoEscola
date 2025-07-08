@@ -1,7 +1,6 @@
 package com.example.escola.services;
 
-import com.example.escola.dtos.ProfessorRequestDTO;
-import com.example.escola.dtos.ProfessorResponseDTO;
+import com.example.escola.dtos.*;
 import com.example.escola.entities.Professores;
 import com.example.escola.repositories.ProfessorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,15 +37,29 @@ public class ProfessorService {
                 .collect(Collectors.toList());
     }
 
+    public ProfessorResponseDTO update(Long id, ProfessorRequestDTO dto){
+        Professores professores = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Professor não encontrado"));
+
+        professores.setNome(dto.getNome());
+        professores.setSobrenome(dto.getSobrenome());
+        professores.setDisciplina(dto.getDisciplina());
+        professores.setIdade(dto.getIdade());
+        professores.setCpf(dto.getCpf());
+
+        professores = repository.save(professores);
+
+        return mapToResponseDTO(professores);
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Carro não encontrado");
+            throw new EntityNotFoundException("Professor não encontrado");
         }
         repository.deleteById(id);
     }
 
     private ProfessorResponseDTO mapToResponseDTO(Professores professores) {
-
         ProfessorResponseDTO dto = new ProfessorResponseDTO();
 
         dto.setId(professores.getId());
@@ -55,6 +68,14 @@ public class ProfessorService {
         dto.setDisciplina(professores.getDisciplina());
         dto.setCpf(professores.getCpf());
         dto.setIdade(professores.getIdade());
+
+        List<TurmaNomeDTO> turmas = professores.getTurmas()
+                .stream()
+                .map(t -> new TurmaNomeDTO(t.getNome()))
+                .toList();
+
+        dto.setTurmas(turmas);
         return dto;
     }
+
 }

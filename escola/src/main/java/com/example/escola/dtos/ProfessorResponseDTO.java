@@ -2,6 +2,8 @@ package com.example.escola.dtos;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ProfessorResponseDTO {
     private Long id;
@@ -10,4 +12,5 @@ public class ProfessorResponseDTO {
     private String disciplina;
     private String cpf;
     private int idade;
+    private List<TurmaNomeDTO> turmas;
 }

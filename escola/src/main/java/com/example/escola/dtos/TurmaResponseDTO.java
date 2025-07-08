@@ -1,7 +1,6 @@
 package com.example.escola.dtos;
 
 import lombok.Data;
-
 import java.util.List;
 
 @Data

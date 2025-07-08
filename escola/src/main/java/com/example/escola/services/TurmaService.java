@@ -1,6 +1,5 @@
 package com.example.escola.services;
 
-import com.example.escola.dtos.AlunoResponseDTO;
 import com.example.escola.dtos.TurmaRequestDTO;
 import com.example.escola.dtos.TurmaResponseDTO;
 import com.example.escola.entities.Alunos;
@@ -44,6 +43,7 @@ public class TurmaService {
         TurmaResponseDTO dto = new TurmaResponseDTO();
         dto.setId(turmas.getId());
         dto.setNome(turmas.getNome());
+
         List<String> nomesProfessores = turmas.getProfessores().stream()
                 .map(Professores::getNome)
                 .toList();
@@ -53,17 +53,6 @@ public class TurmaService {
                 .map(Alunos::getNome)
                 .toList();
         dto.setAlunos(alunosDTO);
-        return dto;
-    }
-
-    private AlunoResponseDTO mapToAlunoDTO(Alunos alunos){
-        AlunoResponseDTO dto = new AlunoResponseDTO();
-
-        dto.setId(alunos.getId());
-        dto.setNome(alunos.getNome());
-        dto.setSobrenome(alunos.getSobrenome());
-        dto.setCpf(alunos.getCpf());
-        dto.setIdade(alunos.getIdade());
         return dto;
     }
 }

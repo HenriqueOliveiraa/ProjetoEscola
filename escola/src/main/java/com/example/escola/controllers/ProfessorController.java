@@ -1,5 +1,7 @@
 package com.example.escola.controllers;
 
+import com.example.escola.dtos.AlunoRequestDTO;
+import com.example.escola.dtos.AlunoResponseDTO;
 import com.example.escola.dtos.ProfessorRequestDTO;
 import com.example.escola.dtos.ProfessorResponseDTO;
 import com.example.escola.repositories.ProfessorRepository;
@@ -29,6 +31,16 @@ public class ProfessorController {
     @GetMapping
     public  ResponseEntity<List<ProfessorResponseDTO>> findAll(){
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfessorResponseDTO> update(@PathVariable Long id, @RequestBody ProfessorRequestDTO dto) {
+        try {
+            ProfessorResponseDTO updatedProfessor = service.update(id, dto);
+            return ResponseEntity.ok(updatedProfessor);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
