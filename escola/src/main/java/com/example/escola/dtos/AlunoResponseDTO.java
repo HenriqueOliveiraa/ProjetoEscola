@@ -10,4 +10,5 @@ public class AlunoResponseDTO {
     private String sobrenome;
     private String cpf;
     private int idade;
+    private String turmaNome;
 }

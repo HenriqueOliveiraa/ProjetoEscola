@@ -1,7 +1,9 @@
 package com.example.escola.services;
 
+import com.example.escola.dtos.AlunoResponseDTO;
 import com.example.escola.dtos.TurmaRequestDTO;
 import com.example.escola.dtos.TurmaResponseDTO;
+import com.example.escola.entities.Alunos;
 import com.example.escola.entities.Professores;
 import com.example.escola.entities.Turmas;
 import com.example.escola.repositories.ProfessorRepository;
@@ -10,41 +12,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TurmaService {
 
-        @Autowired
-        private TurmaRepository turmaRepository;
+    @Autowired
+    private TurmaRepository repository;
 
-        @Autowired
-        private ProfessorRepository professorRepository;
+    @Autowired
+    private ProfessorRepository professorRepository;
 
-        public TurmaResponseDTO create(TurmaRequestDTO dto) {
-            List<Professores> professores = professorRepository.findAllById(dto.getProfessoresIds());
+    public TurmaResponseDTO create(TurmaRequestDTO dto) {
+        List<Professores> professores = professorRepository.findAllById(dto.getProfessoresIds());
 
-            Turmas turmas = new Turmas();
-            turmas.setNome(dto.getNome());
-            turmas.setProfessores(professores);
+        Turmas turmas = new Turmas();
+        turmas.setNome(dto.getNome());
+        turmas.setProfessores(professores);
+        Turmas saved = repository.save(turmas);
+        return mapToResponseDTO(saved);
+    }
 
-            turmaRepository.save(turmas);
-            return mapToResponseDTO(dto);
+    public List<TurmaResponseDTO> findAll() {
+        List<Turmas> turmas = repository.findAll();
 
+        return turmas.stream()
+                .map(this::mapToResponseDTO)
+                .toList();
+    }
 
-            private TurmaResponseDTO mapToResponseDTO(Turmas turmas) {
+    private TurmaResponseDTO mapToResponseDTO(Turmas turmas) {
+        TurmaResponseDTO dto = new TurmaResponseDTO();
+        dto.setId(turmas.getId());
+        dto.setNome(turmas.getNome());
+        List<String> nomesProfessores = turmas.getProfessores().stream()
+                .map(Professores::getNome)
+                .toList();
+        dto.setProfessores(nomesProfessores);
 
-                TurmaResponseDTO dto = new TurmaResponseDTO();
+        List<String> alunosDTO = turmas.getAlunos().stream()
+                .map(Alunos::getNome)
+                .toList();
+        dto.setAlunos(alunosDTO);
+        return dto;
+    }
 
-                dto.setId(turmas.getId());
-                dto.setNome(turmas.getNome());
-                dto.setProfessores(
-                        turmas.getProfessores()
-                                .stream()
-                                .map(Professores::getNome)
-                                .collect(Collectors.toList())
-                );
-                return dto;
-            }
-        }
+    private AlunoResponseDTO mapToAlunoDTO(Alunos alunos){
+        AlunoResponseDTO dto = new AlunoResponseDTO();
+
+        dto.setId(alunos.getId());
+        dto.setNome(alunos.getNome());
+        dto.setSobrenome(alunos.getSobrenome());
+        dto.setCpf(alunos.getCpf());
+        dto.setIdade(alunos.getIdade());
+        return dto;
+    }
 }

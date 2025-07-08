@@ -9,4 +9,5 @@ public class TurmaResponseDTO {
     private Long id;
     private String nome;
     private List<String> professores;
+    private List<String> alunos;
 }
