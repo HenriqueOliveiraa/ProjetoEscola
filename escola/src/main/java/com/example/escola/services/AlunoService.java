@@ -45,6 +45,28 @@ public class AlunoService {
                 .collect(Collectors.toList());
     }
 
+    public AlunoResponseDTO update(Long id, AlunoRequestDTO dto) {
+        Alunos aluno = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
+
+        aluno.setNome(dto.getNome());
+        aluno.setSobrenome(dto.getSobrenome());
+        aluno.setCpf(dto.getCpf());
+        aluno.setIdade(dto.getIdade());
+
+        if (dto.getTurmaId() != null) {
+            Turmas turma = turmaRepository.findById(dto.getTurmaId())
+                    .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada"));
+            aluno.setTurma(turma);
+        } else {
+            aluno.setTurma(null);
+        }
+
+        aluno = repository.save(aluno);
+
+        return mapToResponseDTO(aluno);
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Id do aluno não encontrado");

@@ -1,5 +1,6 @@
 package com.example.escola.controllers;
 
+import com.example.escola.dtos.AlunoRequestDTO;
 import com.example.escola.dtos.AlunoResponseDTO;
 import com.example.escola.repositories.AlunoRepository;
 import com.example.escola.services.AlunoService;
@@ -21,7 +22,7 @@ public class AlunoController {
     private AlunoService service;
 
     @PostMapping
-    public ResponseEntity<AlunoResponseDTO> create (@RequestBody AlunoResponseDTO dto){
+    public ResponseEntity<AlunoResponseDTO> create (@RequestBody AlunoRequestDTO dto){
         return ResponseEntity.ok(service.create(dto));
     }
 
@@ -29,6 +30,17 @@ public class AlunoController {
     public  ResponseEntity<List<AlunoResponseDTO>> findAll(){
         return ResponseEntity.ok(service.findAll());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AlunoResponseDTO> update(@PathVariable Long id, @RequestBody AlunoRequestDTO dto) {
+        try {
+            AlunoResponseDTO updatedAluno = service.update(id, dto);
+            return ResponseEntity.ok(updatedAluno);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
