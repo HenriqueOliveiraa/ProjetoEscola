@@ -18,6 +18,9 @@ public class Professores {
     @Column(unique = true)
     private String cpf;
     private int idade;
+    private String email;
+    private String telefone;
+    private String registro;
     @ManyToMany(mappedBy = "professores")
     private List<Turmas> turmas = new ArrayList<>();
 }

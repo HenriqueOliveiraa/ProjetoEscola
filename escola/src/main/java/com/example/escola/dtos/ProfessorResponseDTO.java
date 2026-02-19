@@ -12,5 +12,8 @@ public class ProfessorResponseDTO {
     private String disciplina;
     private String cpf;
     private int idade;
+    private String email;
+    private String telefone;
+    private String registro;
     private List<TurmaNomeDTO> turmas;
 }

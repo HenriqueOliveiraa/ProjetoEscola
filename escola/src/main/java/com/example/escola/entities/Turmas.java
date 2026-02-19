@@ -14,6 +14,9 @@ public class Turmas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private String ano;
+    private String periodo;
+    private Integer capacidadeMaxima;
     @ManyToMany
     @JoinTable(
             name = "tb_turmas_professores",
