@@ -1,0 +1,65 @@
+.footer {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  color: white;
+  padding: 2rem var(--spacing-md);
+  margin-top: auto;
+  border-top: 4px solid var(--secondary);
+  box-shadow: 0 -4px 20px var(--shadow);
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-text {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.footer-heart {
+  color: var(--secondary);
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem var(--spacing-sm);
+  }
+  
+  .footer-text {
+    font-size: 0.9rem;
+  }
+  
+  .footer-copy {
+    font-size: 0.8rem;
+  }
+}
